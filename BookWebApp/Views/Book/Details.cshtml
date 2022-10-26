@@ -1,0 +1,41 @@
+﻿@model BookWebApp.Models.Book
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!-- Used to add linebreaks to the summary -->
+<style>
+.line-breaks { white-space:pre-line; }
+</style>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text">Book Details</h2>
+        </div>
+    </div>
+</div>
+<br />
+<table class="table table-striped" style="width:100%">
+    <col style="width:10%">
+    <col style="width:90%">
+    <tbody>
+        <tr>
+            <td style="font-weight:900">Title</td>
+            <td>@Model.Title</td>
+        </tr>
+        <tr>
+            <td style="font-weight:900">Author</td>
+            <td>@Model.Author</td>
+        </tr>
+        <tr>
+            <td style="font-weight:900">Year</td>
+            <td>@Model.Year</td>
+        </tr>
+        <tr>
+            <td style="font-weight:900">Summary</td>
+            <td class="line-breaks">@Model.Summary</td>
+        </tr>
+    </tbody>
+</table>
+<a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary" style="width:150px">Back</a>
