@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BookWebApp.Data;
+using BookWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BookWebApp.Data;
-using BookWebApp.Models;
 
 namespace BookWebApp.Controllers
 {
@@ -34,7 +34,7 @@ namespace BookWebApp.Controllers
                 bookList = _context.Book_db.Where(x => x.Title.Contains(searchString));
 
             if (bookList == null)
-                return NotFound();            
+                return NotFound();
 
             switch (sortOrder)
             {
@@ -70,12 +70,13 @@ namespace BookWebApp.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Book book)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(Book book)
         {
             if (ModelState.IsValid)
             {
-                _context.Book_db.AddAsync(book);
-                _context.SaveChanges();
+                await _context.Book_db.AddAsync(book);
+                await _context.SaveChangesAsync();
 
                 TempData["success"] = "Book added successfully!";
 
@@ -86,12 +87,10 @@ namespace BookWebApp.Controllers
         }
 
         // GET
-        public IActionResult Edit(int? id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || id == 0)
-                return NotFound();
-
-            var book = _context.Book_db.FirstOrDefault(x => x.Id == id);
+            var book = await _context.Book_db.FindAsync(id);
 
             if (book == null)
                 return NotFound();
@@ -102,12 +101,13 @@ namespace BookWebApp.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Book book)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(Book book)
         {
             if (ModelState.IsValid)
             {
                 _context.Book_db.Update(book);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 TempData["success"] = "Book edited successfully!";
 
@@ -118,9 +118,9 @@ namespace BookWebApp.Controllers
         }
 
         // GET
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            var book = _context.Book_db.FirstOrDefault(x => x.Id == id);
+            var book = await _context.Book_db.FindAsync(id);
 
             if (book == null)
                 return NotFound();
@@ -129,15 +129,16 @@ namespace BookWebApp.Controllers
         }
 
         // GET
-        public IActionResult Delete(int? id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var book = _context.Book_db.FirstOrDefault(x => x.Id == id);
+            var book = await _context.Book_db.FindAsync(id);
 
             if (book == null)
                 return NotFound();
 
             _context.Book_db.Remove(book);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             TempData["success"] = "Book deleted successfully!";
 

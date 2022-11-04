@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>User data</h1>
+<table class="table table-striped">
+    <tbody>
+        @foreach(var val in User.Claims)
+        {
+            <tr>
+                <td style="font-weight:900">@val.Type</td>
+                <td>@val.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

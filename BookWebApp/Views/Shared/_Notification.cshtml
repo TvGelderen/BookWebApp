@@ -1,9 +1,10 @@
-﻿@if (TempData["success"] != null)
+﻿@if(TempData["success"] != null)
 {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript">
         toastr.options = {
+            "closeButton": true,
             "progressBar": true,
             "positionClass": "toast-bottom-right",
             "preventDuplicates": true
@@ -11,16 +12,31 @@
         toastr.success('@TempData["success"]');
     </script>
 }
-@if (TempData["error"] != null)
+@if(TempData["error"] != null)
 {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript">
         toastr.options = {
+            "closeButton": true,
             "progressBar": true,
             "positionClass": "toast-bottom-right",
             "preventDuplicates": true
         }
         toastr.error('@TempData["error"]');
+    </script>
+}
+@if(TempData["denied"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": true
+        }
+        toastr.warning('@TempData["denied"]');
     </script>
 }
